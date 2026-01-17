@@ -1,4 +1,4 @@
-\# QLoRA Calculus Tutor
+\# QLoRA Mathematical Reasoning Adapter
 
 
 

@@ -14,7 +14,7 @@ MODEL_NAME = "Qwen/Qwen2.5-3B-Instruct"
 DATA_PATH = "data/calculus_alpaca.json"
 OUTPUT_DIR = "outputs/lora_adapter"
 
-# 1️⃣ Quantization config (QLoRA)
+Quantization config (QLoRA)
 bnb_config = BitsAndBytesConfig(
     load_in_4bit=True,
     bnb_4bit_compute_dtype=torch.float16,
@@ -22,7 +22,7 @@ bnb_config = BitsAndBytesConfig(
     bnb_4bit_use_double_quant=True,
 )
 
-# 2️⃣ Load tokenizer + model
+Load tokenizer + model
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 tokenizer.pad_token = tokenizer.eos_token
 
@@ -34,7 +34,7 @@ model = AutoModelForCausalLM.from_pretrained(
 
 model = prepare_model_for_kbit_training(model)
 
-# 3️⃣ LoRA adapter
+LoRA adapter
 lora_config = LoraConfig(
     r=16,
     lora_alpha=32,
@@ -46,7 +46,7 @@ lora_config = LoraConfig(
 
 model = get_peft_model(model, lora_config)
 
-# 4️⃣ Load dataset
+Load dataset
 dataset = load_dataset("json", data_files=DATA_PATH)
 
 def tokenize(example):
@@ -79,7 +79,7 @@ def tokenize(example):
 
 tokenized_dataset = dataset.map(tokenize, remove_columns=dataset["train"].column_names)
 
-# 5️⃣ Training config
+Training config
 training_args = TrainingArguments(
     output_dir=OUTPUT_DIR,
     per_device_train_batch_size=1,
